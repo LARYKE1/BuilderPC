@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/buildPCButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Build PC"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"/>
+
+    <Button
+        android:id="@+id/buildsBySomeoneElseButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Builds by Someone Else"
+        android:layout_below="@id/buildPCButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"/>
+
+    <Button
+        android:id="@+id/oldBuildsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Old Builds"
+        android:layout_below="@id/buildsBySomeoneElseButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"/>
+
+</RelativeLayout>
