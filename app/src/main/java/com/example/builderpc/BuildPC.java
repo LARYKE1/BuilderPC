@@ -1,21 +1,38 @@
 package com.example.builderpc;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BuildPC extends AppCompatActivity {
 
     private Spinner spinnerGPU, spinnerCPU, spinnerMotherboard, spinnerSSD, spinnerRAM, spinnerPowerSupply, spinnerCPUFan;
+    private RecyclerAdapter adapter;
+    private List<String> componentTypes;
+    RecyclerView rv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_build_pc);
 
-        // Initialize the spinners
+        rv = findViewById(R.id.recycler_view);
+        adapter = new RecyclerAdapter(this, new ArrayList<>()); // Initialize with an empty list
+
+        // Set the adapter and layout manager
+        rv.setAdapter(adapter);
+        rv.setLayoutManager(new LinearLayoutManager(this));
+
+        // Call method to load data into the adapter
+        loadDataIntoAdapter();
+        /*
         spinnerGPU = findViewById(R.id.spinner_gpu);
         spinnerCPU = findViewById(R.id.spinner_cpu);
         spinnerMotherboard = findViewById(R.id.spinner_motherboard);
@@ -24,7 +41,7 @@ public class BuildPC extends AppCompatActivity {
         spinnerPowerSupply = findViewById(R.id.spinner_power_supply);
         spinnerCPUFan = findViewById(R.id.spinner_cpu_fan);
 
-        // Populate the spinners with example data
+
         String[] gpuOptions = {"NVIDIA RTX 3080 - $699", "AMD Radeon RX 6800 XT - $649", "NVIDIA GTX 1660 Super - $229"};
         String[] cpuOptions = {"Intel i9-11900K - $539", "AMD Ryzen 9 5900X - $549", "Intel i5-11600K - $262"};
         String[] motherboardOptions = {"ASUS ROG Strix Z590-E - $379", "MSI MPG B550 Gaming Edge - $189", "Gigabyte Z590 AORUS - $329"};
@@ -46,5 +63,21 @@ public class BuildPC extends AppCompatActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, options);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+    } */
+    }
+
+    private void loadDataIntoAdapter() {
+        // Dummy data for demonstration
+        componentTypes = new ArrayList<>();
+        componentTypes.add("GPU");
+        componentTypes.add("CPU");
+        componentTypes.add("Motherboard");
+        componentTypes.add("SSD");
+        componentTypes.add("RAM");
+        // Add more component types as needed
+
+        // Update adapter data and notify adapter about the change
+        adapter.setComponentTypes(componentTypes);
+        adapter.notifyDataSetChanged();
     }
 }

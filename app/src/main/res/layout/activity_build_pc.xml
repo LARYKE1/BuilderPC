@@ -9,109 +9,11 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <!-- GPU -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Select GPU"
-            android:textSize="18sp" />
 
-        <Spinner
-            android:id="@+id/spinner_gpu"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:minHeight="48dp"
-            android:contentDescription="Select GPU" />
-
-        <!-- CPU -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Select CPU"
-            android:textSize="18sp" />
-
-        <Spinner
-            android:id="@+id/spinner_cpu"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:minHeight="48dp"
-            android:contentDescription="Select CPU" />
-
-        <!-- Motherboard -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Select Motherboard"
-            android:textSize="18sp" />
-
-        <Spinner
-            android:id="@+id/spinner_motherboard"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:minHeight="48dp"
-            android:contentDescription="Select Motherboard" />
-
-        <!-- SSD -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Select SSD"
-            android:textSize="18sp" />
-
-        <Spinner
-            android:id="@+id/spinner_ssd"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="48dp"
-            android:layout_marginBottom="16dp"
-            android:contentDescription="Select SSD" />
-
-        <!-- RAM -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Select RAM"
-            android:textSize="18sp" />
-
-        <Spinner
-            android:id="@+id/spinner_ram"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:minHeight="48dp"
-            android:contentDescription="Select RAM" />
-
-        <!-- Power Supply -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Select Power Supply"
-            android:textSize="18sp" />
-
-        <Spinner
-            android:id="@+id/spinner_power_supply"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="48dp"
-            android:layout_marginBottom="16dp"
-            android:contentDescription="Select Power Supply" />
-
-        <!-- CPU Fan -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Select CPU Fan"
-            android:textSize="18sp" />
-
-        <Spinner
-            android:id="@+id/spinner_cpu_fan"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="48dp"
-            android:layout_marginBottom="16dp"
-            android:contentDescription="Select CPU Fan" />
+            android:layout_height="wrap_content"/>
     </LinearLayout>
 </ScrollView>
+
