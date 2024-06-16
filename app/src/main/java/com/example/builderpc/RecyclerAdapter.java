@@ -1,9 +1,12 @@
 package com.example.builderpc;
 
 import android.content.Context;
+import android.os.AsyncTask;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -11,74 +14,99 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyViewHolder> {
 
-    private Context context;
+    private Context Context;
+    private Map<String, List<Component>> componentsMap;
     private List<String> componentTypes;
+    private BuildPC buildPC;
+    private OnComponentSelectedListener listener;
 
-
-
-    public RecyclerAdapter(Context context, List<String> componentTypes) {
-        this.context = context;
-        this.componentTypes = componentTypes;
-
+    public RecyclerAdapter(Context context, Map<String, List<Component>> componentsMap, OnComponentSelectedListener listener, BuildPC buildPC){
+        this.Context = context;
+        this.componentsMap = componentsMap;
+        this.componentTypes = new ArrayList<>(componentsMap.keySet());
+        this.buildPC=buildPC;
+        this.listener=listener;
     }
-
-    public void setComponentTypes(List<String> componentTypes) {
-        this.componentTypes = componentTypes;
-        notifyDataSetChanged(); // Notify RecyclerView that the data has changed
-    }
-
 
     @NonNull
     @Override
     public RecyclerAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.dropdown_item,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.dropdown_item, parent, false);
         return new MyViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerAdapter.MyViewHolder holder, int position) {
-        String componentType = componentTypes.get(position);
-        holder.textViewComponentType.setText(componentType);
+        if (position < componentTypes.size()) {
+            String componentType = componentTypes.get(position);
+            List<Component> components = componentsMap.get(componentType);
 
-        // Populate spinner with random data
-        List<String> randomData = generateRandomData();
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, randomData);
-        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        holder.spinnerComponent.setAdapter(spinnerAdapter);
+            holder.componentTextView.setText(componentType);
+
+            // Set the ArrayAdapter for the Spinner
+            ArrayAdapter<Component> adapter = new ArrayAdapter<>(Context, android.R.layout.simple_spinner_item, components);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            holder.componentSpinner.setAdapter(adapter);
+
+            holder.componentSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                Component previousComponent = null;
+                boolean userSelect = false;
+
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    if (userSelect) {
+                        Component selectedComponent = (Component) parent.getItemAtPosition(position);
+                        if (selectedComponent.getId() != -1) { // Ignore default "SELECT ITEM" message
+                            if (previousComponent != null) {
+                                buildPC.updateTotalPrice(-previousComponent.getPrice()); // Subtract price of previously selected component
+                            }
+                            buildPC.updateTotalPrice(selectedComponent.getPrice()); // Add price of newly selected component
+                            previousComponent = selectedComponent; // Update previously selected component
+
+                        }
+                    } else {
+                        userSelect = true;
+                    }
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+                    // Do nothing
+                }
+            });
+        }
     }
 
     @Override
     public int getItemCount() {
-        return componentTypes.size();
+        return componentsMap.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder{
+    public class MyViewHolder extends RecyclerView.ViewHolder {
+        TextView componentTextView;
+        Spinner componentSpinner;
 
-        private TextView textViewComponentType;
-        private Spinner spinnerComponent;
-
-        public MyViewHolder(@NonNull View itemView) {
+        public MyViewHolder(View itemView) {
             super(itemView);
-
-            textViewComponentType = itemView.findViewById(R.id.text_view_component_type);
-            spinnerComponent = itemView.findViewById(R.id.spinner_component);
+            componentTextView = itemView.findViewById(R.id.categoryTextView);
+            componentSpinner = itemView.findViewById(R.id.componentSpinner);
         }
     }
 
-    private List<String> generateRandomData() {
-        List<String> randomData = new ArrayList<>();
-        randomData.add("Option 1       $100");
-        randomData.add("Option 2       $150");
-        randomData.add("Option 3       $200");
-        // Add more options as needed
-        return randomData;
-    }
+
+
 }
+
+
 
 
 
